@@ -9,13 +9,17 @@
 }
 
 @font-face {
-  font-family: "Gerline";
-  src: url("/fonts/Gerline.otf");
+  font-family: "Orbitron-Bold";
+  src: url("/fonts/Orbitron-Bold.ttf");
 }
-
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
 @theme {
   --font-Fredoka: "Fredoka";
-  --font-Gerline: "Gerline";
+  --font-Orbitron-Bold: "Orbitron-Bold";
 
   --color-deep-purple: #200122;
   --color-dark-red: #6f0000;

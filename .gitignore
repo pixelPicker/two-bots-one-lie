@@ -23,3 +23,4 @@ loop.md
 *.njsproj
 *.sln
 *.sw?
+*.env
