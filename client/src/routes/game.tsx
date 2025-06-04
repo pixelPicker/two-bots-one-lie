@@ -26,7 +26,7 @@ function RouteComponent() {
           Content is Loading... <br />
           Please wait
         </h3>
-      </div>
+      </div> 
     );
   }
 
@@ -135,12 +135,13 @@ function BotTwo() {
 function SubmitButtons() {
   return (
     <div className="flex justify-center items-center h-full">
+      <button className="border-[2px] font-Fredoka text-lg text-gray-100 text-center rounded-l-full !px-8 !py-3 border-gray-100 bg-dark-red bg-radial-[at_25%_100%] bg-size-[200%] from-gray-100/50 via-gray-100/50 via-10% to-gray-100/10 to-25% inset-shadow-sm inset-shadow-gray-300/75 shadow-lg hover:scale-110 active:scale-90 transition-all duration-300">
+        Liar
+      </button>
 
-      <button className="border-[2px] font-Fredoka text-lg text-gray-100 text-center rounded-l-full !px-8 !py-3 border-gray-100 bg-dark-red bg-radial-[at_25%_100%] bg-size-[200%] from-gray-100/50 via-gray-100/50 via-10% to-gray-100/10 to-25% inset-shadow-sm inset-shadow-gray-300/75 shadow-lg hover:scale-110 active:scale-90 transition-all duration-300">Liar</button>
-      
-      <button className="border-[2px] font-Fredoka text-lg text-gray-100 text-center rounded-r-full !px-8 !py-3 border-gray-100 bg-dark-red bg-radial-[at_25%_100%] bg-size-[200%] from-gray-100/50 via-gray-100/50 via-10% to-gray-100/10 to-25% inset-shadow-sm inset-shadow-gray-300/75 shadow-lg hover:scale-110 active:scale-90 transition-all duration-300">Liar</button>
-
-
+      <button className="border-[2px] font-Fredoka text-lg text-gray-100 text-center rounded-r-full !px-8 !py-3 border-gray-100 bg-dark-red bg-radial-[at_25%_100%] bg-size-[200%] from-gray-100/50 via-gray-100/50 via-10% to-gray-100/10 to-25% inset-shadow-sm inset-shadow-gray-300/75 shadow-lg hover:scale-110 active:scale-90 transition-all duration-300">
+        Liar
+      </button>
     </div>
   );
 }
