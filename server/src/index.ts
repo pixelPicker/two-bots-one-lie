@@ -1,16 +1,19 @@
+import "dotenv/config";
 import express from "express";
-import { toNodeHandler } from "better-auth/node";
-import { auth } from "./auth.js";
-
+import logger from "./config/logger.js";
+import { pinoHttp } from "pino-http";
 const app = express();
 const port = 3000;
 
-app.all("/api/auth/{*any}", toNodeHandler(auth));
-
-// Mount express json middleware after Better Auth handler
-// or only apply it to routes that don't interact with Better Auth
 app.use(express.json());
 
+app.use(pinoHttp({ logger }));
+
+app.get("/", (req, res) => {
+  res.status(200).json({ message: "Request send successfully" });
+});
+
 app.listen(port, () => {
-  console.log(`Better Auth app listening on port ${port}`);
+  logger.info(`App listening on port ${port}`);
+  console.log(`App listening on port ${port}`);
 });
