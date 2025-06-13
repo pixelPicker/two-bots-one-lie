@@ -11,16 +11,17 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as ResultImport } from './routes/result'
+import { Route as NotCompletedImport } from './routes/notCompleted'
 import { Route as HelpImport } from './routes/help'
 import { Route as GameImport } from './routes/game'
 import { Route as IndexImport } from './routes/index'
+import { Route as ResultHasWonImport } from './routes/result.$hasWon'
 
 // Create/Update Routes
 
-const ResultRoute = ResultImport.update({
-  id: '/result',
-  path: '/result',
+const NotCompletedRoute = NotCompletedImport.update({
+  id: '/notCompleted',
+  path: '/notCompleted',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -39,6 +40,12 @@ const GameRoute = GameImport.update({
 const IndexRoute = IndexImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const ResultHasWonRoute = ResultHasWonImport.update({
+  id: '/result/$hasWon',
+  path: '/result/$hasWon',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -67,11 +74,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HelpImport
       parentRoute: typeof rootRoute
     }
-    '/result': {
-      id: '/result'
-      path: '/result'
-      fullPath: '/result'
-      preLoaderRoute: typeof ResultImport
+    '/notCompleted': {
+      id: '/notCompleted'
+      path: '/notCompleted'
+      fullPath: '/notCompleted'
+      preLoaderRoute: typeof NotCompletedImport
+      parentRoute: typeof rootRoute
+    }
+    '/result/$hasWon': {
+      id: '/result/$hasWon'
+      path: '/result/$hasWon'
+      fullPath: '/result/$hasWon'
+      preLoaderRoute: typeof ResultHasWonImport
       parentRoute: typeof rootRoute
     }
   }
@@ -83,14 +97,16 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/game': typeof GameRoute
   '/help': typeof HelpRoute
-  '/result': typeof ResultRoute
+  '/notCompleted': typeof NotCompletedRoute
+  '/result/$hasWon': typeof ResultHasWonRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/game': typeof GameRoute
   '/help': typeof HelpRoute
-  '/result': typeof ResultRoute
+  '/notCompleted': typeof NotCompletedRoute
+  '/result/$hasWon': typeof ResultHasWonRoute
 }
 
 export interface FileRoutesById {
@@ -98,15 +114,16 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/game': typeof GameRoute
   '/help': typeof HelpRoute
-  '/result': typeof ResultRoute
+  '/notCompleted': typeof NotCompletedRoute
+  '/result/$hasWon': typeof ResultHasWonRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/game' | '/help' | '/result'
+  fullPaths: '/' | '/game' | '/help' | '/notCompleted' | '/result/$hasWon'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/game' | '/help' | '/result'
-  id: '__root__' | '/' | '/game' | '/help' | '/result'
+  to: '/' | '/game' | '/help' | '/notCompleted' | '/result/$hasWon'
+  id: '__root__' | '/' | '/game' | '/help' | '/notCompleted' | '/result/$hasWon'
   fileRoutesById: FileRoutesById
 }
 
@@ -114,14 +131,16 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   GameRoute: typeof GameRoute
   HelpRoute: typeof HelpRoute
-  ResultRoute: typeof ResultRoute
+  NotCompletedRoute: typeof NotCompletedRoute
+  ResultHasWonRoute: typeof ResultHasWonRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   GameRoute: GameRoute,
   HelpRoute: HelpRoute,
-  ResultRoute: ResultRoute,
+  NotCompletedRoute: NotCompletedRoute,
+  ResultHasWonRoute: ResultHasWonRoute,
 }
 
 export const routeTree = rootRoute
@@ -137,7 +156,8 @@ export const routeTree = rootRoute
         "/",
         "/game",
         "/help",
-        "/result"
+        "/notCompleted",
+        "/result/$hasWon"
       ]
     },
     "/": {
@@ -149,8 +169,11 @@ export const routeTree = rootRoute
     "/help": {
       "filePath": "help.tsx"
     },
-    "/result": {
-      "filePath": "result.tsx"
+    "/notCompleted": {
+      "filePath": "notCompleted.tsx"
+    },
+    "/result/$hasWon": {
+      "filePath": "result.$hasWon.tsx"
     }
   }
 }

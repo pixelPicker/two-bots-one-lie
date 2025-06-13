@@ -7,9 +7,9 @@ import { gameDataController } from "../controller/gameData.js";
 const router = express.Router();
 
 router
-  .get("game/start", gameStartController)
-  .post("game/:gameId/answer", answerController)
-  .post("game/:gameId/question", questionController)
-  .post("game/:gameId", gameDataController);
+  .get("/game/start", gameStartController)
+  .post("/game/:gameId/answer", answerController)
+  .post("/game/:gameId/question", questionController)
+  .post("/game/:gameId", gameDataController);
 
 export default router;

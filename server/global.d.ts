@@ -1,5 +1,5 @@
 declare global {
-  interface GameResponse {
+  interface Game {
     questionId: string;
     scenario: string;
     bot1Statement: string;
@@ -12,6 +12,9 @@ declare global {
     actualAnswer: "bot1" | "bot2";
     result: boolean | null;
   }
+interface H {
+  name: string
+}
 }
 
 export {};

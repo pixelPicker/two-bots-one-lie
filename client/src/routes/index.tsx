@@ -1,5 +1,3 @@
-import { RiRobotFill } from "react-icons/ri";
-import { RiRobotLine } from "react-icons/ri";
 import { createFileRoute, Link } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/")({
@@ -8,7 +6,7 @@ export const Route = createFileRoute("/")({
 
 function RouteComponent() {
   return (
-    <div className="bg-[url(images\\landing-bg.jpg)] brightness-75 w-screen h-screen bg-cover grid place-items-center !p-24">
+    <div className="bg-[url('/images/landing-bg.jpg')] brightness-75 w-screen h-screen bg-cover grid place-items-center !p-24">
       <div className="w-full absolute h-full backdrop-blur-[1px]"></div>
 
       <div className="z-10 grid text-center gap-5">

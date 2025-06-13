@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import z from "zod";
+import z from "zod/v4";
 import { catchDrizzzzzleError } from "../utils/catchError.js";
 import { db } from "../db/db.js";
 import { gameRounds } from "../db/schema.js";
@@ -21,16 +21,12 @@ function botQuestion(
   question: string
 ) {
   return {
-    model: "neural-chat",
+    model: process.env.CHATBOT_NAME,
     prompt: `
-    You're continuing a round of a game called "2 Bots 1 Lie". The user has been presented with a scenario. Two bots gave initial responses. The user has now asked a follow-up question to one of the bots. Your job is to generate that specific bot's follow-up answer. Be consistent with the bot's original statement — even if it's a lie. Don't contradict the original stance. Respond in a short, clear, and confident way.
-    ${{ scenario, previousBotStatement, question }}
-    Return the result in JSON format with the following structure
-    {
-      "response": "<your message>"
-    }
+    You're continuing a round of a game called "2 Bots 1 Lie". The user has been presented with this scenario ${scenario}. Two bots gave initial responses. The user has now asked a follow-up question to one of the bots. Your job is to generate that specific bot's follow-up answer. Be consistent with the bot's original statement — even if it's a lie. Don't contradict the original stance. Respond in a short, clear, and confident way. Here's the previous statement from the bot ${previousBotStatement} and the question asked by the user ${question}. 
     `,
     stream: false,
+    format: z.toJSONSchema(questionBotResponseSchema),
   };
 }
 
@@ -40,7 +36,7 @@ export const questionController = async (req: Request, res: Response) => {
   const bodyParseResult = questionRequestSchema.safeParse(req.body);
 
   if (!bodyParseResult.success) {
-    const formattedError = bodyParseResult.error.format()._errors.join(". ");
+    const formattedError = bodyParseResult.error.message;
     res.status(400).json({ error: formattedError });
     return;
   }
@@ -60,16 +56,9 @@ export const questionController = async (req: Request, res: Response) => {
     return;
   }
 
-  if (bodyParseResult.data.toBot === "bot1") {
-    if (fetchedGame[0].bot1Question) {
-      res.status(400).json({ error: "Only 1 question is allowed per bot" });
-      return;
-    }
-  } else {
-    if (fetchedGame[0].bot2Question) {
-      res.status(400).json({ error: "Only 1 question is allowed per bot" });
-      return;
-    }
+  if (fetchedGame[0].bot1Question || fetchedGame[0].bot2Question) {
+    res.status(400).json({ error: "Only 1 question is allowed per bot" });
+    return;
   }
 
   const questionRes = await fetch(process.env.CHATBOT_URL!, {
@@ -94,14 +83,16 @@ export const questionController = async (req: Request, res: Response) => {
     return;
   }
 
-  const botResponseParseResult = await questionBotResponseSchema.safeParseAsync(
-    res.json()
-  );
+  const botResBody = await questionRes.json();
+  const botResponse = JSON.parse(botResBody.response);
+  
+  const botResponseParseResult =
+    questionBotResponseSchema.safeParse(botResponse);
 
   if (!botResponseParseResult.success) {
     logger.warn({
       errorMessage: "Invalid format for chatbot response",
-      error: botResponseParseResult.error.format(),
+      error: botResponseParseResult.error.message,
     });
     res.status(500).json({
       error: "Error while generation response. Please try again later",
@@ -138,7 +129,7 @@ export const questionController = async (req: Request, res: Response) => {
     return;
   }
 
-  const {actualAnswer, ...gameData} = updatedGameData[0]
+  const { actualAnswer, ...gameData } = updatedGameData[0];
 
   res.status(200).json({ data: gameData });
 };
