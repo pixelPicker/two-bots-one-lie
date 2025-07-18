@@ -1,0 +1,31 @@
+version: '3.9'
+
+services:
+  client: 
+    build:
+      context: ./client
+      depends_on:
+        - server
+      ports: 
+        - "5173:5173" 
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+    working_dir: /app
+    command: npm run dev
+
+  server:
+    build:
+      context: ./server
+    ports:
+      - "3000:3000"
+    depends_on:
+      - ollama
+    working_dir: /app
+    volumes:
+      - ./server:/app
+      - /app/node_modules
+    command: npm run debug
+    environment:
+      - OLLAMA_HOST=http://ollama:11434
+

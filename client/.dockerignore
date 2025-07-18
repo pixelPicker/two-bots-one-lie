@@ -1,19 +1,18 @@
-# Logs
-logs
-*.log
-npm-debug.log*
+node_modules
+dist
+.git
+loop.md
+
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
-node_modules
-dist
-dist-ssr
+
 *.local
 loop.md
 *.txt
-
+*.md
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
@@ -25,3 +24,4 @@ loop.md
 *.sln
 *.sw?
 *.env
+*.log
